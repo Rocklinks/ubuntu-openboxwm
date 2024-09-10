@@ -149,7 +149,7 @@ tar -xzvf Fonts.tar.gz -C Fonts
 sudo cp -Rf Fonts/ /usr/share/fonts/
 sudo fc-cache -fv
 
-default_user=$(whoami)
+default_user=$(logname)
 config_dir="/home/$default_user/.config"
 home_dir="/home/$default_user"
 

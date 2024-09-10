@@ -137,8 +137,7 @@ sudo cp -Rf udev/rules.d/90-backlight.rules /etc/udev/rules.d/
 
 # Rules for the brightness
 RULES_FILE="/etc/udev/rules.d/90-backlight.rules"
-CURRENT_USER=$(whoami)
-sudo sed -i "s/\$USER/$CURRENT_USER/g" "$RULES_FILE"
+sudo sed -i "s/\$USER/$(logname)/g" "$RULES_FILE"
 
 # Copy the networkmanager_dmenu file, forcing the overwrite
 sudo cp -Rf usr/bin/networkmanager_dmenu /usr/bin/
@@ -149,15 +148,14 @@ tar -xzvf Fonts.tar.gz -C Fonts
 sudo cp -Rf Fonts/ /usr/share/fonts/
 sudo fc-cache -fv
 
-default_user=$(logname)
-config_dir="/home/$default_user/.config"
-home_dir="/home/$default_user"
+config_dir="/home/$(logname)/.config"
+home_dir="/home/$(logname)"
 
 # Create the destination directory if it doesn't exist
-sudo -u "$default_user mkdir -p "$config_dir"
+sudo mkdir -p "$config_dir"
 
 # Copy the directories
-sudo -u "$default_user" cp -Rf config/dunst config/networkmanager-dmenu config/openbox config/xfce4 "$config_dir/"
+sudo cp -Rf config/dunst config/networkmanager-dmenu config/openbox config/xfce4 "$config_dir/"
 
 copy_normal_polybar() {
     sudo cp -rf config/polybar $home_dir/.config/
@@ -189,16 +187,16 @@ case $choice in
         ;;
 esac
 # Change permissions for polybar scripts
-sudo -u "$default_user" chmod +x "$config_dir/polybar/scripts/"*
+sudo chmod +x "$config_dir/polybar/scripts/"*
 
 # Create the zsh directory and extract the contents of zsh.tar.gz
-mkdir -p zsh
+sudo mkdir -p zsh
 tar -xzvf zsh.tar.gz -C zsh
-sudo -u "$default_user" cp -Rf zsh/.bashrc "$home_dir/.bashrc"
-sudo -u "$default_user" cp -Rf zsh/.zshrc "$home_dir/.zshrc"
+sudo cp -Rf zsh/.bashrc "$home_dir/.bashrc"
+sudo cp -Rf zsh/.zshrc "$home_dir/.zshrc"
 sudo cp -Rf zsh/* /usr/share
-DIR="$HOME/.local/share/cache"
-mkdir -p "$DIR"
+DIR="$home_dir/.local/share/cache"
+sudo mkdir -p "$DIR"
 sudo mv cache/* "$DIR/"
 
 
@@ -227,15 +225,7 @@ elif [ -n "$ETHERNET" ]; then
 else
     echo "No active network interfaces found."
 fi
-sudo chmod 777 /sys/class/backlight/intel_backlight/brightness
-
-
-if [ -e "/sys/class/power_supply/BAT0" ]; then
-    cp bat.sh ~/.config/polybar/scripts/ 
-    echo "Script copied successfully."
-else
-    echo "No battery detected."
-fi
+#sudo chmod 777 /sys/class/backlight/intel_backlight/brightness
 
 
 #############################################

@@ -39,6 +39,8 @@ sudo dpkg -i xfce4-docklike-plugin.deb
 # Remove the downloaded .deb file
 sudo rm xfce4-docklike-plugin.deb
 
+sudo apt install gir1.2-gtksource-4 libpeas-1.0.0 libpeas-common
+
 URL1="http://packages.linuxmint.com/pool/backport/x/xed/xed-common_3.6.6%2Bwilma_all.deb"
 URL2="http://packages.linuxmint.com/pool/backport/x/xed/xed_3.6.6%2Bwilma_amd64.deb"
 
@@ -47,12 +49,12 @@ wget $URL1
 wget $URL2
 
 # Install the .deb packages
-sudo dpkg -i xed-common_3.6.6%2Bwilma_all.deb
-sudo dpkg -i xed_3.6.6%2Bwilma_amd64.deb
+sudo dpkg -i xed-common_3.6.6+wilma_all.deb
+sudo dpkg -i xed_3.6.6+wilma_amd64.deb
 
 # Remove the downloaded .deb files
-sudo rm xed-common_3.6.6%2Bwilma_all.deb
-sudo rm xed_3.6.6%2Bwilma_amd64.deb
+sudo rm xed-common_3.6.6+wilma_all.deb
+sudo rm xed_3.6.6+wilma_amd64.deb
 
 sudo apt update -y
 
@@ -82,7 +84,7 @@ sudo apt update && sudo apt install qbittorrent -y
 
 
 ########################################### wps office
-wget https://wdl1.pcfg.cache.wpscdn.com/wpsdl/wpsoffice/download/linux/11723/wps-office_11.1.0.11723.XA_amd64.deb[1]
+wget https://wdl1.pcfg.cache.wpscdn.com/wpsdl/wpsoffice/download/linux/11723/wps-office_11.1.0.11723.XA_amd64.deb
 sudo apt install ./wps-office_11.1.0.11723.XA_amd64.deb
 sudo rm wps-office_11.1.0.11723.XA_amd64.deb
 ######################################## Localsend

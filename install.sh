@@ -14,10 +14,10 @@ packages=(
     vlc stacer zram-tools preload xarchiver xorg thunar gnome-disk-utility
     thunar-volman thunar-archive-plugin udiskie udisks2 tumbler gvfs git
     xfce4-panel policykit-1-gnome xfdesktop4 blueman seahorse gir1.2-appindicator3-0.1
-    xfce4-settings xfce4-power-manager i3-color imagemagick libayatana-appindicator3-1
+    xfce4-settings xfce4-power-manager imagemagick libayatana-appindicator3-1
     bc openbox obconf playerctl xcompmgr parcellite htop neofetch
     numlockx rofi polybar lxappearance dirmngr ca-certificates software-properties-common
-    zsh tlp tlp-rdw viewnior obs-studio virtualbox apt-transport-https gir1.2-gtksource-4 libpeas-1.0.0 libpeas-common
+    zsh tlp tlp-rdw viewnior obs-studio virtualbox apt-transport-https gir1.2-gtksource-4 libpeas-1.0-0 libpeas-common
 )
 
 
@@ -45,7 +45,7 @@ Pin-Priority: 1000
 Package: firefox*
 Pin: release o=Ubuntu
 Pin-Priority: -1' | sudo tee /etc/apt/preferences.d/mozilla
-sudo apt update && sudo apt install firefox
+sudo apt update && sudo apt install firefox -y
 
 # Define the list of packages to install
 URL="https://github.com/jakbin/xfce4-docklike-plugin/releases/download/0.4.2/xfce4-docklike-plugin.deb"

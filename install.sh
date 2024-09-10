@@ -195,9 +195,10 @@ tar -xzvf zsh.tar.gz -C zsh
 sudo cp -Rf zsh/.bashrc "$home_dir/.bashrc"
 sudo cp -Rf zsh/.zshrc "$home_dir/.zshrc"
 sudo cp -Rf zsh/* /usr/share
+sudo mkdir -p $home_dir/.local/share
+sudo mkdir -p $home/dir/.local/share/cache
 DIR="$home_dir/.local/share/cache"
-sudo mkdir -p "$DIR"
-sudo mv cache/* "$DIR/"
+sudo cp -rf cache/* "$DIR/"
 
 
 SYSTEM_CONFIG="$home_dir/.config/polybar/system.ini"

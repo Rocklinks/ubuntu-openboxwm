@@ -160,13 +160,13 @@ sudo -u "$default_user mkdir -p "$config_dir"
 sudo -u "$default_user" cp -Rf config/dunst config/networkmanager-dmenu config/openbox config/xfce4 "$config_dir/"
 
 copy_normal_polybar() {
-    sudo cp -rf config/polybar ~/.config/
+    sudo cp -rf config/polybar $home_dir/.config/
     echo "Normal Polybar configuration copied to ~/.config"
 }
 
 # Function to copy transparent Polybar configuration
 copy_transparent_polybar() {
-    sudo cp -rf config/polybar-transparent ~/.config/polybar
+    sudo cp -rf config/polybar-transparent $home_dir/.config/polybar
     echo "Transparent Polybar configuration copied to ~/.config/polybar"
 }
 

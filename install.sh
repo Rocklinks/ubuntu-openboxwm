@@ -10,6 +10,26 @@
 set -exo  pipefail
 
 sudo apt update && sudo apt upgrade -y
+packages=(
+    vlc stacer zram-tools preload xarchiver xorg thunar gnome-disk-utility
+    thunar-volman thunar-archive-plugin udiskie udisks2 tumbler gvfs git
+    xfce4-panel policykit-1-gnome xfdesktop4 blueman seahorse gir1.2-appindicator3-0.1
+    xfce4-settings xfce4-power-manager i3-color imagemagick libayatana-appindicator3-1
+    bc openbox obconf playerctl xcompmgr parcellite htop neofetch
+    numlockx rofi polybar lxappearance dirmngr ca-certificates software-properties-common
+    zsh tlp tlp-rdw viewnior obs-studio virtualbox apt-transport-https gir1.2-gtksource-4 libpeas-1.0.0 libpeas-common
+)
+
+
+for package in "${packages[@]}"; do
+    if ! dpkg -l | grep -q "^ii  $package "; then
+        echo "$package is not installed. Installing..."
+        sudo apt install -y "$package"
+    else
+        echo "$package is already installed."
+    fi
+done
+
 
 #install firefox
 sudo install -d -m 0755 /etc/apt/keyrings
@@ -39,8 +59,6 @@ sudo dpkg -i xfce4-docklike-plugin.deb
 # Remove the downloaded .deb file
 sudo rm xfce4-docklike-plugin.deb
 
-sudo apt install gir1.2-gtksource-4 libpeas-1.0.0 libpeas-common
-
 URL1="http://packages.linuxmint.com/pool/backport/x/xed/xed-common_3.6.6%2Bwilma_all.deb"
 URL2="http://packages.linuxmint.com/pool/backport/x/xed/xed_3.6.6%2Bwilma_amd64.deb"
 
@@ -56,28 +74,6 @@ sudo dpkg -i xed_3.6.6+wilma_amd64.deb
 sudo rm xed-common_3.6.6+wilma_all.deb
 sudo rm xed_3.6.6+wilma_amd64.deb
 
-sudo apt update -y
-
-packages=(
-    vlc stacer zram-tools preload xarchiver xorg thunar gnome-disk-utility
-    thunar-volman thunar-archive-plugin udiskie udisks2 tumbler gvfs
-    xfce4-panel policykit-1-gnome xfdesktop4 blueman seahorse gir1.2-appindicator3-0.1
-    xfce4-settings xfce4-power-manager i3-color imagemagick libayatana-appindicator3-1
-    bc openbox obconf playerctl xcompmgr parcellite htop neofetch
-    numlockx rofi polybar lxappearance dirmngr ca-certificates software-properties-common
-    zsh tlp tlp-rdw viewnior obs-studio virtualbox pt-transport-https
-)
-
-
-for package in "${packages[@]}"; do
-    if ! dpkg -l | grep -q "^ii  $package "; then
-        echo "$package is not installed. Installing..."
-        sudo apt install -y "$package"
-    else
-        echo "$package is already installed."
-    fi
-done
-
 ###################################### Qbittorrent 
 sudo add-apt-repository ppa:qbittorrent-team/qbittorrent-stable -y
 sudo apt update && sudo apt install qbittorrent -y
@@ -92,11 +88,6 @@ wget https://github.com/localsend/localsend/releases/download/v1.15.4/LocalSend-
 sudo apt install ./LocalSend-1.15.4-linux-x86-64.deb
 
 sudo rm LocalSend-1.15.4-linux-x86-64.deb
-
-########################################### Betterlockscreen
-wget https://raw.githubusercontent.com/betterlockscreen/betterlockscreen/main/install.sh -O - -q | sudo bash -s system
-
-sudo rm -rf betterlockscreen
 
 #############################################3 Wine
 
@@ -158,24 +149,24 @@ tar -xzvf Fonts.tar.gz -C Fonts
 sudo cp -Rf Fonts/ /usr/share/fonts/
 sudo fc-cache -fv
 
-default_user=$(getent passwd 1000 | cut -d: -f1)
+default_user=$(whoami)
 config_dir="/home/$default_user/.config"
 home_dir="/home/$default_user"
 
 # Create the destination directory if it doesn't exist
-sudo -u "$default_user" mkdir -p "$config_dir"
+sudo -u "$default_user mkdir -p "$config_dir"
 
 # Copy the directories
 sudo -u "$default_user" cp -Rf config/dunst config/networkmanager-dmenu config/openbox config/xfce4 "$config_dir/"
 
 copy_normal_polybar() {
-    cp -r /path/to/polybar ~/.config/
+    sudo cp -rf config/polybar ~/.config/
     echo "Normal Polybar configuration copied to ~/.config"
 }
 
 # Function to copy transparent Polybar configuration
 copy_transparent_polybar() {
-    cp -r /path/to/polybar-transparent ~/.config/polybar
+    sudo cp -rf config/polybar-transparent ~/.config/polybar
     echo "Transparent Polybar configuration copied to ~/.config/polybar"
 }
 
@@ -323,6 +314,15 @@ for file in "$ICONS_DIR"/*.xz; do
 done
 
 
+
+sudo apt install autoconf gcc make pkg-config libpam0g-dev libcairo2-dev libfontconfig1-dev libxcb-composite0-dev libev-dev libx11-xcb-dev libxcb-xkb-dev libxcb-xinerama0-dev libxcb-randr0-dev libxcb-image0-dev libxcb-util-dev libxcb-xrm-dev libxkbcommon-dev libxkbcommon-x11-dev libjpeg-dev -y
+git clone https://github.com/Raymo111/i3lock-color.git
+cd i3lock-color
+./install-i3lock-color.sh
+cd ..
+
+wget https://raw.githubusercontent.com/betterlockscreen/betterlockscreen/main/install.sh -O - -q | sudo bash -s system
+sudo rm -rf betterlockscreen
 
 
 

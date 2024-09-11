@@ -59,8 +59,8 @@ sudo dpkg -i xfce4-docklike-plugin.deb
 # Remove the downloaded .deb file
 sudo rm xfce4-docklike-plugin.deb
 
-URL1="http://packages.linuxmint.com/pool/backport/x/xed/xed-common_3.6.6%2Bwilma_all.deb"
-URL2="http://packages.linuxmint.com/pool/backport/x/xed/xed_3.6.6%2Bwilma_amd64.deb"
+URL1="http://packages.linuxmint.com/pool/backport/x/xed/xed-common_3.6.6+wilma_all.deb"
+URL2="http://packages.linuxmint.com/pool/backport/x/xed/xed_3.6.6+wilma_amd64.deb"
 
 # Download the .deb files
 wget $URL1

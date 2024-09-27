@@ -194,12 +194,6 @@ sudo mkdir -p zsh
 tar -xzvf zsh.tar.gz -C zsh
 sudo cp -Rf zsh/.bashrc "$home_dir/.bashrc"
 sudo cp -Rf zsh/.zshrc "$home_dir/.zshrc"
-sudo cp -Rf zsh/* /usr/share
-sudo mkdir -p $home_dir/.local/share
-sudo mkdir -p $home/dir/.local/share/cache
-DIR="$home_dir/.local/share/cache"
-sudo cp -rf cache/* "$DIR/"
-
 
 SYSTEM_CONFIG="$home_dir/.config/polybar/system.ini"
 POLYBAR_CONFIG="$home_dir/.config/polybar/config.ini"
@@ -303,17 +297,6 @@ for file in "$ICONS_DIR"/*.xz; do
         echo "No .xz files found in $ICONS_DIR."
     fi
 done
-
-
-
-sudo apt install autoconf gcc make pkg-config libpam0g-dev libcairo2-dev libfontconfig1-dev libxcb-composite0-dev libev-dev libx11-xcb-dev libxcb-xkb-dev libxcb-xinerama0-dev libxcb-randr0-dev libxcb-image0-dev libxcb-util-dev libxcb-xrm-dev libxkbcommon-dev libxkbcommon-x11-dev libjpeg-dev -y
-git clone https://github.com/Raymo111/i3lock-color.git
-cd i3lock-color
-./install-i3lock-color.sh
-cd ..
-
-wget https://raw.githubusercontent.com/betterlockscreen/betterlockscreen/main/install.sh -O - -q | sudo bash -s system
-sudo rm -rf betterlockscreen
 
 
 

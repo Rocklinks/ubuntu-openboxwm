@@ -68,16 +68,38 @@ wget $URL2
 
 # Install the .deb packages
 sudo dpkg -i xed-common_3.6.6+wilma_all.deb
-sudo dpkg -i xed_3.6.6+wilma_amd64.deb
+install_package() {
+    local package=$1
 
+    # Attempt to install the package
+    echo "Attempting to install $package..."
+    sudo dpkg -i "$package"
+
+    # Check if the installation failed
+    if [ $? -ne 0 ]; then
+        echo "Installation failed. Attempting to fix broken packages..."
+        sudo apt --fix-broken install -y
+        
+        # Retry installing the package after fixing dependencies
+        echo "Retrying installation of $package..."
+        sudo dpkg -i "$package"
+        
+        # Check if the second attempt was successful
+        if [ $? -eq 0 ]; then
+            echo "Package $package installed successfully after fixing dependencies."
+        else
+            echo "Failed to install $package after attempting to fix dependencies."
+        fi
+    else
+        echo "Package $package installed successfully."
+    fi
+}
+
+# Call the function with the desired package name
+install_package "xed_3.6.6+wilma_amd64.deb"
 # Remove the downloaded .deb files
 sudo rm xed-common_3.6.6+wilma_all.deb
 sudo rm xed_3.6.6+wilma_amd64.deb
-
-###################################### Qbittorrent 
-sudo add-apt-repository ppa:qbittorrent-team/qbittorrent-stable -y
-sudo apt update && sudo apt install qbittorrent -y
-
 
 ########################################### wps office
 wget https://wdl1.pcfg.cache.wpscdn.com/wpsdl/wpsoffice/download/linux/11723/wps-office_11.1.0.11723.XA_amd64.deb

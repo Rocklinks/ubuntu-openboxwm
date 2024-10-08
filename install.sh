@@ -153,7 +153,6 @@ if [[ "$choice" == [Yy] ]]; then
 else
     echo "Installation canceled."
 fi
-
 #############################################3 Wine
 
 read -p "Do you want to install Wine? (y/n): " answer
@@ -168,8 +167,6 @@ if [[ "$answer" == "y" ]]; then
 else
     echo "Wine will not be installed."
 fi
-
-
 ###################################################### 
 
 enable_service() {
@@ -212,21 +209,21 @@ if [ ! -d "$THEMES_DIR" ]; then
     exit 1
 fi
 
-# Loop through .xz and .gz files in the themes directory
 for file in "$THEMES_DIR"/*.{xz,gz}; do
-    # Check if the file exists (to avoid errors if no files match)
     if [ -e "$file" ]; then
         echo "Extracting $file..."
-
-        # Determine the file type and extract accordingly
         case "$file" in
             *.xz)
                 # Extract .xz files
-                tar -xf "$file" -C "$THEMES_DIR"
+                sudo tar -xf "$file" -C "$THEMES_DIR"
                 ;;
             *.gz)
                 # Extract .gz files
-                tar -xzf "$file" -C "$THEMES_DIR"
+                sudo tar -xzf "$file" -C "$THEMES_DIR"
+                ;;
+            *.zip)
+                # Extract .gz files
+                sudo unzip "$file" -C "$THEMES_DIR"
                 ;;
         esac
 
@@ -244,13 +241,12 @@ for file in "$THEMES_DIR"/*.{xz,gz}; do
     fi
 done
 
-########################################################
-#### XDM ###
+##### XDM ###
 wget https://github.com/subhra74/xdm/releases/download/8.0.29/xdman_gtk_8.0.29_amd64.deb
 sudo dpkg -i xdman_gtk_8.0.29_amd64.deb
 sudo rm xdman_gtk_8.0.29_amd64.deb
 
-## Icons
+######## Icons
 SOURCE_DIR="./icons"
 
 TARGET_DIR="/usr/share/icons"

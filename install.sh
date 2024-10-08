@@ -251,34 +251,22 @@ sudo dpkg -i xdman_gtk_8.0.29_amd64.deb
 sudo rm xdman_gtk_8.0.29_amd64.deb
 
 ## Icons
-ICONS_DIR="icons"
-if [ ! -d "$ICONS_DIR" ]; then
-    echo "Icons directory does not exist."
-    exit 1
-fi
+SOURCE_DIR="./icons"
 
-for file in "$ICONS_DIR"/*.xz; do
-    # Check if the file exists (to avoid errors if no files match)
-    if [ -e "$file" ]; then
-        echo "Extracting $file..."
-
-        # Create the kora folder
-        KORA_DIR="$ICONS_DIR/kora"
-        mkdir -p "$KORA_DIR"
-
-        # Extract the .xz file to the kora folder
-        sudo tar -xf "$file" -C "$KORA_DIR"
-
-        # Copy the extracted contents to /usr/share/icons/
-        echo "Copying extracted contents to /usr/share/icons/..."
-        sudo cp -r "$KORA_DIR"/* /usr/share/icons/
-
-        # Remove the kora folder
-        sudo rm -rf "$KORA_DIR"
-    else
-        echo "No .xz files found in $ICONS_DIR."
+TARGET_DIR="/usr/share/icons"
+for file in "$SOURCE_DIR"/*.tar.gz "$SOURCE_DIR"/*.tar.xz; do
+    if [[ -e "$file" ]]; then
+        if [[ "$file" == *.tar.gz ]]; then
+            sudo tar -xzf "$file" -C /tmp/
+        elif [[ "$file" == *.tar.xz ]]; then
+            sudo tar -xf "$file" -C /tmp/
+        fi
+        sudo mv /tmp/* "$TARGET_DIR"/
+        
+        rm "$file"
     fi
 done
+echo "All operations completed successfully."
 
 
 

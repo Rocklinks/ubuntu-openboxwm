@@ -263,7 +263,7 @@ for file in "$SOURCE_DIR"/*.tar.gz "$SOURCE_DIR"/*.tar.xz; do
         fi
         sudo mv /tmp/* "$TARGET_DIR"/
         
-        rm "$file"
+        sudo rm "$file"
     fi
 done
 echo "All operations completed successfully."

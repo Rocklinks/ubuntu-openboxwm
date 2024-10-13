@@ -201,45 +201,6 @@ sudo cp -Rf zsh/.bashrc "$home/.bashrc"
 sudo cp -Rf zsh/.zshrc "$home/.zshrc"
 
 #############################################
-THEMES_DIR="themes"
-
-# Check if the themes directory exists
-if [ ! -d "$THEMES_DIR" ]; then
-    echo "Themes directory does not exist."
-    exit 1
-fi
-
-for file in "$THEMES_DIR"/*.{xz,gz}; do
-    if [ -e "$file" ]; then
-        echo "Extracting $file..."
-        case "$file" in
-            *.xz)
-                # Extract .xz files
-                sudo tar -xf "$file" -C "$THEMES_DIR"
-                ;;
-            *.gz)
-                # Extract .gz files
-                sudo tar -xzf "$file" -C "$THEMES_DIR"
-                ;;
-            *.zip)
-                # Extract .gz files
-                sudo unzip "$file" -C "$THEMES_DIR"
-                ;;
-        esac
-
-        # Move the extracted folder to /usr/share/themes/
-        extracted_folder="${file%.*}"  # Remove the file extension
-        extracted_folder="${extracted_folder%.*}"  # Remove the second extension if any
-        if [ -d "$extracted_folder" ]; then
-            echo "Moving $extracted_folder to /usr/share/themes/"
-            sudo mv "$extracted_folder" /usr/share/themes/
-        else
-            echo "No extracted folder found for $file."
-        fi
-    else
-        echo "No .xz or .gz files found in $THEMES_DIR."
-    fi
-done
 
 ##### XDM ###
 wget https://github.com/subhra74/xdm/releases/download/8.0.29/xdman_gtk_8.0.29_amd64.deb
@@ -247,21 +208,35 @@ sudo dpkg -i xdman_gtk_8.0.29_amd64.deb
 sudo rm xdman_gtk_8.0.29_amd64.deb
 
 ######## Icons
-SOURCE_DIR="./icons"
+sudo mkdir -p themes/theme
+sudo tar -xvzf themes/CachyOS.tar.gz -C themes/theme
+sudo cp -rf themes/theme/* /usr/share/themes/
+sudo rm -rf themes/theme
 
-TARGET_DIR="/usr/share/icons"
-for file in "$SOURCE_DIR"/*.tar.gz "$SOURCE_DIR"/*.tar.xz; do
-    if [[ -e "$file" ]]; then
-        if [[ "$file" == *.tar.gz ]]; then
-            sudo tar -xzf "$file" -C /tmp/
-        elif [[ "$file" == *.tar.xz ]]; then
-            sudo tar -xf "$file" -C /tmp/
-        fi
-        sudo mv /tmp/* "$TARGET_DIR"/
-        
-        sudo rm "$file"
-    fi
-done
+sudo unzip themes/Tokyonight-Dark-B-MB.zip -d themes/Tokyonight
+sudo cp -rf themes/Tokyonight/* /usr/share/themes/
+sudo rm -rf themes/Tokyonight
+
+### Icons
+kora="/usr/share/icons/kora"
+if [ ! -d "$kora" ]; then
+    sudo tar -xf icons/kora-1-6-6.tar.xz -C icons/kora
+    sudo mv icons/kora/* /usr/share/icons/ 
+    sudo rm icons/kora -rf
+else
+    echo "Directory $kora already exists."
+fi
+
+TARGET_DIR="/usr/share/icons/Qogir"
+
+if [ ! -d "$TARGET_DIR" ]; then
+    sudo mkdir -p icons/qogir
+    sudo tar -xf icons/01-Qogir.tar.xz -C icons/qogir
+    sudo mv icons/qogir/* /usr/share/icons/
+    sudo rm -rf icons/qogir
+else
+    echo "Directory $TARGET_DIR already exists."
+fi
 echo "All operations completed successfully."
 
 
